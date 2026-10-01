@@ -3461,5 +3461,20 @@
             "file_checksum": "4C377BC4",
             "file_extension": "mkv"
         }
+    },
+    {
+        "input": "[Group] Anime Name Vol.1 & 2 & 3 (BD 1080p FLAC)",
+        "output": {
+            "title": "Anime Name",
+            "volume": [
+                "1",
+                "2",
+                "3"
+            ],
+            "release_group": "Group",
+            "source": "BD",
+            "video_resolution": "1080p",
+            "audio_term": "FLAC"
+        }
     }
 ]

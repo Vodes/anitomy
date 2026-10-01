@@ -46,20 +46,20 @@ inline std::vector<Element> parse_volume(std::span<Token> tokens) noexcept {
       }
     }
 
-    // Multiple volumes (e.g. `1&2`)
-    {
-      static constexpr auto match_multiple_volumes = [](const Token& token, std::smatch& matches) {
-        static const std::regex pattern{R"((\d{1,4})&(\d{1,4}))"};
-        return std::regex_match(token.value, matches, pattern);
-      };
-
-      std::smatch matches;
-
-      if (match_multiple_volumes(*token, matches)) {
-        volume_token->element_kind = ElementKind::Volume;
-        token->element_kind = ElementKind::Volume;
-        elements.emplace_back(element_from_token(ElementKind::Volume, *token, matches.str(1)));
-        elements.emplace_back(element_from_token(ElementKind::Volume, *token, matches.str(2)));
+    // Multiple volumes are separate tokens (e.g. `1&2`, `1 & 2`).
+    if (token->element_kind == ElementKind::Volume) {
+      auto last_volume = token;
+      while (true) {
+        auto separator = find_next_token(tokens, last_volume, [](const Token& token) {
+          return !is_delimiter_token(token) || token.value == "&";
+        });
+        if (separator == tokens.end() || separator->value != "&") break;
+        auto next_volume = find_next_token(tokens, separator, is_not_delimiter_token);
+        if (next_volume == tokens.end() || !is_free_token(*next_volume) ||
+            !is_numeric_token(*next_volume) || next_volume->value.size() > 4) break;
+        next_volume->element_kind = ElementKind::Volume;
+        elements.emplace_back(element_from_token(ElementKind::Volume, *next_volume));
+        last_volume = next_volume;
       }
     }
 
