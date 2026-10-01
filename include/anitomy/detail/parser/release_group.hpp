@@ -24,6 +24,7 @@ inline std::span<Token> find_release_group(std::span<Token> tokens) noexcept {
 
   // Skip if the range contains other tokens
   if (first != tokens.end()) {
+    if (last == tokens.end()) return {};
     if (auto token = find_prev_token(tokens, first, is_not_delimiter_token);
         token != tokens.end() && !is_open_bracket_token(*token)) {
       return find_release_group({last, tokens.end()});
