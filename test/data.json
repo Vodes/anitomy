@@ -4063,5 +4063,217 @@
             "episode": "10",
             "file_extension": "mkv"
         }
+    },
+    {
+        "input": "Some.Show.S03E04.1080p.CR.WEB-DL.Dual-Audio.AAC2.0.H.264-SomeGroup.mkv",
+        "output": {
+            "title": "Some Show",
+            "season": "03",
+            "episode": "04",
+            "video_resolution": "1080p",
+            "source": [
+                "CR",
+                "WEB-DL"
+            ],
+            "audio_term": [
+                "Dual-Audio",
+                "AAC",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "release_group": "SomeGroup",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[SomeGroup] Some Show - S03E04 (BD 1080p HEVC Opus) [Dual Audio] [CF1029D9].mkv",
+        "output": {
+            "title": "Some Show",
+            "season": "03",
+            "episode": "04",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "Opus",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "release_group": "SomeGroup",
+            "file_checksum": "CF1029D9",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Some.Show.S03E04.1080p.BluRay.Remux.Dual-Audio.FLAC2.0.H.264-SomeGroup.mkv",
+        "output": {
+            "title": "Some Show",
+            "season": "03",
+            "episode": "04",
+            "video_resolution": "1080p",
+            "source": "BluRay",
+            "release_information": "Remux",
+            "audio_term": [
+                "Dual-Audio",
+                "FLAC",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "release_group": "SomeGroup",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S01E01 - (BD 1080p HEVC FLAC) [Dual Audio] [1234ABCD].mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "file_checksum": "1234ABCD",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name - S01E01 - (BD 1080p HEVC FLAC) [Dual Audio] [1234ABCD]-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "file_checksum": "1234ABCD",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name (2022) - S01E01 - (BD Remux 1080p HEVC FLAC) [Dual Audio]-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "release_information": "Remux",
+            "year": "2022",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime.Name.S00E09.Title.of.the.Episode.1080p.BluRay.Opus2.0.x264-Hi10P-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "09",
+            "video_resolution": "1080p",
+            "source": "BluRay",
+            "audio_term": [
+                "Opus",
+                "2.0"
+            ],
+            "video_term": [
+                "x264",
+                "Hi10P"
+            ],
+            "episode_title": "Title of the Episode",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name Season 2 (BD Remux 1080p H.264 FLAC) [Dual Audio] [Group]",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "2",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "release_information": "Remux",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "H.264"
+        }
+    },
+    {
+        "input": "Anime Name (2022) S01 (BD 1080p HEVC Opus) [Dual Audio]-Group",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "Opus",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "year": "2022"
+        }
+    },
+    {
+        "input": "ONE.PIECE.S01E1136.1080p.NF.WEB-DL.AAC2.0.H.264-VARYG.mkv",
+        "output": {
+            "title": "ONE PIECE",
+            "season": "01",
+            "episode": "1136",
+            "video_resolution": "1080p",
+            "source": [
+                "NF",
+                "WEB-DL"
+            ],
+            "audio_term": [
+                "AAC",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "release_group": "VARYG",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[SubsPlease] One Piece - 1122 (1080p) [5262249D].mkv",
+        "output": {
+            "title": "One Piece",
+            "episode": "1122",
+            "release_group": "SubsPlease",
+            "video_resolution": "1080p",
+            "file_checksum": "5262249D",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "One Piece E1156 [1080p][AAC][JapDub][GerEngSub][Web-DL].mkv",
+        "output": {
+            "title": "One Piece",
+            "episode": "1156",
+            "video_resolution": "1080p",
+            "audio_term": [
+                "AAC",
+                "JapDub"
+            ],
+            "release_group": "GerEngSub",
+            "source": "Web-DL",
+            "file_extension": "mkv"
+        }
     }
 ]
