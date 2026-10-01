@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <span>
 #include <utility>
 #include <vector>
 
@@ -36,58 +37,74 @@ public:
   }
 
   inline void parse(const Options& options) noexcept {
+    auto tokens = std::span{tokens_};
+    // Torrent titles may append aliases after the release metadata.
+    for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+      if (it->value != "|" || it->is_enclosed) continue;
+      const bool has_release_metadata = std::any_of(tokens.begin(), it, [](const Token& token) {
+        if (!token.keyword) return false;
+        return token.keyword->kind == KeywordKind::Source ||
+               token.keyword->kind == KeywordKind::VideoCodec ||
+               token.keyword->kind == KeywordKind::VideoResolution;
+      });
+      if (has_release_metadata) {
+        tokens = {tokens.begin(), it};
+        break;
+      }
+    }
+
     // File extension
     if (options.parse_file_extension) {
-      add_element(parse_file_extension(tokens_));
+      add_element(parse_file_extension(tokens));
     }
 
     // Keywords
-    add_elements(parse_keywords(tokens_, options));
+    add_elements(parse_keywords(tokens, options));
 
     // Checksum
     if (options.parse_file_checksum) {
-      add_element(parse_file_checksum(tokens_));
+      add_element(parse_file_checksum(tokens));
     }
 
     // Video resolution
     if (options.parse_video_resolution) {
-      add_elements(parse_video_resolution(tokens_));
+      add_elements(parse_video_resolution(tokens));
     }
 
     // Year
     if (options.parse_year) {
-      add_element(parse_year(tokens_));
+      add_element(parse_year(tokens));
     }
 
     // Season
     if (options.parse_season) {
-      add_elements(parse_season(tokens_));
+      add_elements(parse_season(tokens));
     }
 
     // Part
     if (options.parse_part) {
-      add_element(parse_part(tokens_));
+      add_element(parse_part(tokens));
     }
 
     // Episode
     if (options.parse_episode) {
-      add_elements(parse_volume(tokens_));
-      add_elements(parse_episode(tokens_));
+      add_elements(parse_volume(tokens));
+      add_elements(parse_episode(tokens));
     }
 
     // Title
     if (options.parse_title) {
-      add_element(parse_title(tokens_));
+      add_element(parse_title(tokens));
     }
 
     // Release group
     if (options.parse_release_group && !contains(ElementKind::ReleaseGroup)) {
-      add_element(parse_release_group(tokens_));
+      add_element(parse_release_group(tokens));
     }
 
     // Episode title
     if (options.parse_episode_title && contains(ElementKind::Episode)) {
-      add_element(parse_episode_title(tokens_));
+      add_element(parse_episode_title(tokens));
     }
 
     std::ranges::sort(elements_, {}, &Element::position);
