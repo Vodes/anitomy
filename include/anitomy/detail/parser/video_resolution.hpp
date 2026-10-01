@@ -29,8 +29,16 @@ inline std::vector<Element> parse_video_resolution(std::span<Token> tokens) noex
 
   // If not found, look for special cases
   if (elements.empty()) {
-    for (auto& token : tokens | filter(is_free_token) | filter(is_numeric_token)) {
+    auto view = tokens | filter(is_free_token) | filter(is_numeric_token);
+    for (auto it = view.begin(); it != view.end(); ++it) {
+      auto& token = *it;
       if (token.value == "1080") {
+        const auto next_token = find_next_token(tokens, it.base().base(), is_not_delimiter_token);
+        if (!token.is_enclosed &&
+            (next_token == tokens.end() || !is_identified_token(*next_token) ||
+             next_token->element_kind == ElementKind::FileExtension)) {
+          continue;
+        }
         token.element_kind = ElementKind::VideoResolution;
         elements.emplace_back(ElementKind::VideoResolution, token.value, token.position);
         break;

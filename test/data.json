@@ -3486,5 +3486,13 @@
             "release_group": "Group",
             "file_extension": "mkv"
         }
+    },
+    {
+        "input": "One Piece - 1080.mkv",
+        "output": {
+            "title": "One Piece",
+            "episode": "1080",
+            "file_extension": "mkv"
+        }
     }
 ]
