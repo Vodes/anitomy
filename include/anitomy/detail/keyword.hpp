@@ -131,13 +131,14 @@ constexpr auto make_base_keywords() noexcept {
           {"TrueHD", PrefixForNumber},
           {"DTS", PrefixForNumber},
           {"DTS-ES"},
+          {"DTS-HD", PrefixForNumber},
           {"FLAC", PrefixForNumber},
           {"FLACx2"},
           {"FLACx3"},
           {"FLACx4"},
           {"Lossless"},
           {"MP3"},
-          {"Opus", Ambiguous},  // e.g. "Opus.COLORs"
+          {"Opus", Ambiguous | PrefixForNumber},  // e.g. "Opus.COLORs"
           {"OGG"},
           {"Vorbis"},
         }

@@ -3494,5 +3494,71 @@
             "episode": "1080",
             "file_extension": "mkv"
         }
+    },
+    {
+        "input": "Anime.Name.S01E01.1080p.BluRay.Opus2.0.x264-Hi10P-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": "BluRay",
+            "audio_term": [
+                "Opus",
+                "2.0"
+            ],
+            "video_term": [
+                "x264",
+                "Hi10P"
+            ],
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name S02 E01-E24 (BD Remux 1080p x264 8-bit DTS-HD) [Dual-Audio] [Group]",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "02",
+            "episode": [
+                "01",
+                "24"
+            ],
+            "video_resolution": "1080p",
+            "source": "BD",
+            "release_information": "Remux",
+            "audio_term": [
+                "DTS-HD",
+                "Dual-Audio"
+            ],
+            "video_term": [
+                "x264",
+                "8-bit"
+            ]
+        }
+    },
+    {
+        "input": "Anime Name S01 E25-E48 (BD Remux 1080p x264 8-bit DTS-HD) [Dual-Audio] [Group]",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": [
+                "25",
+                "48"
+            ],
+            "video_resolution": "1080p",
+            "source": "BD",
+            "release_information": "Remux",
+            "audio_term": [
+                "DTS-HD",
+                "Dual-Audio"
+            ],
+            "video_term": [
+                "x264",
+                "8-bit"
+            ]
+        }
     }
 ]
