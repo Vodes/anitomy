@@ -13,6 +13,7 @@ namespace anitomy::detail {
 // clang-format off
 constexpr std::array file_extensions{
     "3gp",
+    "7z",
     "avi",
     "divx",
     "flv",
