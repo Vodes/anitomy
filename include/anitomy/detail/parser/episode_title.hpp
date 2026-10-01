@@ -14,6 +14,7 @@ inline std::span<Token> find_episode_title(std::span<Token> tokens) noexcept {
   static constexpr auto is_invalid_token = [](const Token& token) {
     if (!is_identified_token(token)) return false;
     return token.element_kind != ElementKind::Episode &&
+           token.element_kind != ElementKind::EpisodeAlternative &&
            token.element_kind != ElementKind::ReleaseVersion &&
            token.element_kind != ElementKind::Season;
   };
@@ -22,9 +23,16 @@ inline std::span<Token> find_episode_title(std::span<Token> tokens) noexcept {
     return token.element_kind == ElementKind::Part;
   };
 
-  const auto episode = std::ranges::find_if(tokens, [](const Token& token) {
+  auto episode = std::ranges::find_if(tokens, [](const Token& token) {
     return token.element_kind == ElementKind::Episode;  //
   });
+
+  // Prefer an explicit season/episode tag when absolute numbers also appear.
+  for (auto it = tokens.begin(); it != tokens.end(); ++it) {
+    if (it->element_kind == ElementKind::Episode && it->value.starts_with("S")) {
+      episode = it;
+    }
+  }
 
   if (episode == tokens.end()) return {};
 

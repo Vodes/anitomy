@@ -26,6 +26,7 @@ enum class ElementKind {
   VideoTerm,
   Volume,
   Year,
+  EpisodeAlternative,
 };
 
 struct Element {

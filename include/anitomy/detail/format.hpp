@@ -65,6 +65,7 @@ constexpr std::string_view to_string(const ElementKind kind) noexcept {
     case AudioTerm: return "audio_term";
     case Device: return "device";
     case Episode: return "episode";
+    case EpisodeAlternative: return "episode_alt";
     case EpisodeTitle: return "episode_title";
     case FileChecksum: return "file_checksum";
     case FileExtension: return "file_extension";
@@ -95,6 +96,7 @@ inline const std::optional<ElementKind> to_element_kind(std::string_view str) no
       {"audio_term", AudioTerm},
       {"device", Device},
       {"episode", Episode},
+      {"episode_alt", EpisodeAlternative},
       {"episode_title", EpisodeTitle},
       {"file_checksum", FileChecksum},
       {"file_extension", FileExtension},

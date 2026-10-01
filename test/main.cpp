@@ -171,6 +171,9 @@ void test_json() {
 void test_parser() {
   using namespace anitomy::detail;
 
+  assert(to_string(anitomy::ElementKind::EpisodeAlternative) == "episode_alt");
+  assert(to_element_kind("episode_alt") == anitomy::ElementKind::EpisodeAlternative);
+
   anitomy::Options options;
 
   {

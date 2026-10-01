@@ -18,7 +18,7 @@
 
 namespace anitomy::detail {
 
-inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
+inline std::vector<Element> parse_episode_numbers(std::span<Token> tokens) noexcept {
   using namespace std::views;
 
   std::vector<Element> elements;
@@ -186,24 +186,6 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
     }
   }
 
-  // Equivalent numbers (e.g. `01 (176)`, `29 (04)`)
-  {
-    static constexpr auto match_equivalent_number = [](const Token& token, std::smatch& matches) {
-      static const std::regex pattern{"(\\d{1,4})\\s*\\((\\d{1,4})\\)"};
-      return std::regex_match(token.value, matches, pattern);
-    };
-
-    std::smatch matches;
-
-    for (auto& token : tokens | filter(is_free_token)) {
-      if (match_equivalent_number(token, matches)) {
-        add_element_from_token(ElementKind::Episode, token, matches.str(1),
-                               token.position + matches.position(1));
-        return elements;
-      }
-    }
-  }
-
   // Separated number (e.g. ` - 08`)
   {
     auto view = tokens | reverse | filter(is_dash_token);
@@ -325,6 +307,162 @@ inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
       add_element_from_token(ElementKind::Episode, *token);
       return elements;
     }
+  }
+
+  return elements;
+}
+
+inline std::vector<Element> parse_episode(std::span<Token> tokens) noexcept {
+  auto elements = parse_episode_numbers(tokens);
+
+  const auto is_available_number = [](const Token& token) {
+    if (!is_free_token(token) && token.element_kind != ElementKind::Episode) return false;
+    if (is_numeric_token(token)) return token.value.size() <= 4;
+    static const std::regex versioned_number{R"(\d{1,4}[vV]\d)"};
+    return token.element_kind == ElementKind::Episode &&
+           std::regex_match(token.value, versioned_number);
+  };
+  const auto is_separator = [](const Token& token) {
+    return is_delimiter_token(token) &&
+           (is_dash_token(token) || is_space(token.value.front()) || token.value == "_");
+  };
+  const auto next_content = [&](size_t index) {
+    while (index < tokens.size() && is_separator(tokens[index])) ++index;
+    return index;
+  };
+  const auto previous_content = [&](size_t index) {
+    while (index > 0 && is_separator(tokens[index - 1])) --index;
+    return index == 0 ? tokens.size() : index - 1;
+  };
+  const auto has_release_dash = [&](size_t index) {
+    while (index > 0 && is_delimiter_token(tokens[index - 1]) &&
+           (is_space(tokens[index - 1].value.front()) || tokens[index - 1].value == "_")) --index;
+    return index > 0 && is_dash_token(tokens[index - 1]);
+  };
+  const auto episode_element = [&](size_t index) {
+    const auto& token = tokens[index];
+    return std::ranges::find_if(elements, [&](const Element& element) {
+      return element.kind == ElementKind::Episode && element.position >= token.position &&
+             element.position < token.position + token.value.size();
+    });
+  };
+  const auto number_value = [&](size_t index) {
+    const auto element = episode_element(index);
+    return element == elements.end() ? tokens[index].value : element->value;
+  };
+  const auto add_alternative = [&](size_t index, std::string value = {}) {
+    auto& token = tokens[index];
+    auto element = episode_element(index);
+    if (element != elements.end()) {
+      element->kind = ElementKind::EpisodeAlternative;
+      if (!value.empty()) element->value = std::move(value);
+    } else {
+      elements.emplace_back(element_from_token(ElementKind::EpisodeAlternative, token, value));
+    }
+    token.element_kind = ElementKind::EpisodeAlternative;
+  };
+  const auto enclosed_number = [&](size_t index) -> std::optional<size_t> {
+    index = next_content(index);
+    if (index == tokens.size()) return {};
+    const auto& open = tokens[index];
+    if (open.value != "(") return {};
+    const auto number = next_content(index + 1);
+    if (number == tokens.size() || !is_available_number(tokens[number])) return {};
+    const auto close = next_content(number + 1);
+    if (close == tokens.size() || tokens[close].value != ")") {
+      return {};
+    }
+    return number;
+  };
+
+  // Explicit season/episode tags take precedence over alternate numbering.
+  static const std::regex explicit_pattern{R"((?:S\d{1,2}E|\d{1,2}x)\d{1,4}(?:[vV]\d)?)"};
+  for (size_t index = 0; index < tokens.size(); ++index) {
+    if (tokens[index].element_kind != ElementKind::Episode ||
+        !std::regex_match(tokens[index].value, explicit_pattern)) continue;
+
+    const auto add_for_primary = [&](size_t number, std::string value = {}) {
+      if (value.empty()) value = number_value(number);
+      const auto primary = episode_element(index);
+      if (primary != elements.end() && !value.contains('.') &&
+          to_int(primary->value) == to_int(value)) {
+        const auto position = tokens[number].position;
+        std::erase_if(elements, [&](const Element& element) {
+          return element.kind == ElementKind::Episode && element.position == position;
+        });
+        tokens[number].element_kind = ElementKind::EpisodeAlternative;
+      } else {
+        add_alternative(number, value);
+      }
+    };
+
+    // Absolute number before the tag: `46 (S04E10)` or `18.5 - S00E05`.
+    auto previous = previous_content(index);
+    if (previous != tokens.size() && tokens[previous].value == "(") {
+      const auto close = next_content(index + 1);
+      if (close < tokens.size() && tokens[close].value == ")") {
+        previous = previous_content(previous);
+      }
+    }
+    if (previous != tokens.size() && is_available_number(tokens[previous])) {
+      auto first = previous;
+      std::string value = number_value(previous);
+      if (previous >= 2 && tokens[previous].value == "5" &&
+          tokens[previous - 1].value == "." && is_available_number(tokens[previous - 2])) {
+        first = previous - 2;
+        value = tokens[first].value + ".5";
+      }
+      if (has_release_dash(first)) {
+        add_for_primary(first, value);
+        for (auto part = first + 1; part <= previous; ++part) {
+          tokens[part].element_kind = ElementKind::EpisodeAlternative;
+        }
+      }
+    }
+
+    // Absolute number immediately after the tag: `S04E10 (46)`.
+    auto after = next_content(index + 1);
+    if (after < tokens.size() && tokens[after].value == ")" &&
+        index > 0 && tokens[index - 1].value == "(") {
+      after = next_content(after + 1);
+    }
+    if (auto number = enclosed_number(after)) add_for_primary(*number);
+
+    // A later enclosed `Episode 83` is alternate numbering, not another range member.
+    for (size_t number = index + 1; number < tokens.size(); ++number) {
+      if (!tokens[number].is_enclosed || !is_available_number(tokens[number]) ||
+          tokens[number].element_kind != ElementKind::Episode) continue;
+      const auto prefix = previous_content(number);
+      if (prefix == tokens.size() || !tokens[prefix].keyword ||
+          tokens[prefix].keyword->kind != KeywordKind::Episode) continue;
+      auto primary = episode_element(index);
+      if (primary == elements.end()) continue;
+      if (to_int(primary->value) == to_int(tokens[number].value)) {
+        primary->value = tokens[number].value;
+        std::erase_if(elements, [&](const Element& element) {
+          return element.kind == ElementKind::Episode && element.position == tokens[number].position;
+        });
+        tokens[number].element_kind = ElementKind::EpisodeAlternative;
+      } else {
+        add_alternative(number);
+      }
+    }
+  }
+
+  // Without an explicit tag, the smaller of adjacent `01 (176)` numbers is local.
+  for (size_t index = 0; index < tokens.size(); ++index) {
+    if (tokens[index].is_enclosed || !is_available_number(tokens[index]) ||
+        !has_release_dash(index)) continue;
+    const auto number = enclosed_number(index + 1);
+    if (!number) continue;
+    const auto local = to_int(tokens[index].value) <= to_int(tokens[*number].value) ? index : *number;
+    const auto alternative = local == index ? *number : index;
+    if (to_int(tokens[local].value) == to_int(tokens[alternative].value)) continue;
+    add_alternative(alternative);
+    if (episode_element(local) == elements.end()) {
+      elements.emplace_back(element_from_token(ElementKind::Episode, tokens[local]));
+    }
+    tokens[local].element_kind = ElementKind::Episode;
   }
 
   return elements;

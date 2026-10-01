@@ -12,6 +12,8 @@
 
 Returns parsed elements as `std::vector<anitomy::Element>`, ordered according to their position in the input. Note that there may be multiple elements of the same kind.
 
+`Episode` contains the primary episode number. `EpisodeAlternative` (`episode_alt`) contains secondary numbering, such as `46` in `46 (S04E10)`. Identical episode numbers are deduplicated. Episode ranges remain multiple `Episode` elements.
+
 ## `anitomy::Element` struct
 
 - `anitomy::ElementKind kind` - Can be `Title`, `Episode`, etc. Convertable to string using `std::format`.

@@ -3839,5 +3839,229 @@
             "episode_title": "Title of the Episode",
             "file_extension": "mkv"
         }
+    },
+    {
+        "input": "Anime Name - 18.5 - S00E05 - (BD 1080p HEVC FLAC) [Dual Audio]-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "05",
+            "episode_alt": "18.5",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name - 18.5 - S00E05 - Title of the Episode",
+        "output": {
+            "title": "Anime Name",
+            "season": "00",
+            "episode": "05",
+            "episode_alt": "18.5",
+            "episode_title": "Title of the Episode"
+        }
+    },
+    {
+        "input": "Anime Name - 06.5 - S00E04 - Title of the Episode (BD 1080p HEVC FLAC) [Dual Audio] [1234ABCD] [Group].mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "04",
+            "episode_alt": "06.5",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "episode_title": "Title of the Episode",
+            "file_checksum": "1234ABCD",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name - 18.5 - S00E05 - Title of the Episode (BD 1080p HEVC FLAC) [Dual Audio]-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "05",
+            "episode_alt": "18.5",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "episode_title": "Title of the Episode",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[GJM] Ascendance of a Bookworm (Honzuki no Gekokujou) - 46 (S04E10) (WEB 1080p) [73AE5CE1].mkv",
+        "output": {
+            "release_group": "GJM",
+            "title": "Ascendance of a Bookworm (Honzuki no Gekokujou)",
+            "episode_alt": "46",
+            "season": "04",
+            "episode": "10",
+            "source": "WEB",
+            "video_resolution": "1080p",
+            "file_checksum": "73AE5CE1",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Kaleido-subs] Blue Archive the Animation - 07 (S01E07) - (WEB 1080p HEVC x265 10-bit E-AC3 2.0) [3B0015AF]",
+        "output": {
+            "release_group": "Kaleido-subs",
+            "title": "Blue Archive the Animation",
+            "season": "01",
+            "episode": "07",
+            "source": "WEB",
+            "video_resolution": "1080p",
+            "video_term": [
+                "HEVC",
+                "x265",
+                "10-bit"
+            ],
+            "audio_term": [
+                "E-AC3",
+                "2.0"
+            ],
+            "file_checksum": "3B0015AF"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S04E10 (46).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "04",
+            "episode": "10",
+            "episode_alt": "46",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 07 (S01E07).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "07",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S01E07 (7).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "07",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 1136 (S01E1136).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "1136",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 1136 (S01E10).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "10",
+            "episode_alt": "1136",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S01E01-E03.mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": [
+                "01",
+                "03"
+            ],
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 01 ~ 12.mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "episode": [
+                "01",
+                "12"
+            ],
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S01E01 (2026).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "01",
+            "year": "2026",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - S01E01 - Story 2026.mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "season": "01",
+            "episode": "01",
+            "episode_title": "Story 2026",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 01v2 (176).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "episode": "01",
+            "release_version": "2",
+            "episode_alt": "176",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name - 46v2 (S04E10).mkv",
+        "output": {
+            "release_group": "Group",
+            "title": "Anime Name",
+            "episode_alt": "46",
+            "release_version": "2",
+            "season": "04",
+            "episode": "10",
+            "file_extension": "mkv"
+        }
     }
 ]
