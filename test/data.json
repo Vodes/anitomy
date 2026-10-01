@@ -3560,5 +3560,64 @@
                 "8-bit"
             ]
         }
+    },
+    {
+        "input": "Anime.Name.2022.S01.1080p.AMZN.WEB-DL.DDP2.0.H.264-Group",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "video_resolution": "1080p",
+            "source": [
+                "AMZN",
+                "WEB-DL"
+            ],
+            "audio_term": [
+                "DDP",
+                "2.0"
+            ],
+            "video_term": "H.264",
+            "year": "2022"
+        }
+    },
+    {
+        "input": "Anime.Name.2022.S01.E01-E11.1080p.BluRay.FLAC2.0.H.265-Group",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": [
+                "01",
+                "11"
+            ],
+            "video_resolution": "1080p",
+            "source": "BluRay",
+            "audio_term": [
+                "FLAC",
+                "2.0"
+            ],
+            "video_term": "H.265",
+            "year": "2022"
+        }
+    },
+    {
+        "input": "Anime.Name.2022.S01.E12-E23.1080p.BluRay.FLAC2.0.H.265-Group",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "01",
+            "episode": [
+                "12",
+                "23"
+            ],
+            "video_resolution": "1080p",
+            "source": "BluRay",
+            "audio_term": [
+                "FLAC",
+                "2.0"
+            ],
+            "video_term": "H.265",
+            "year": "2022"
+        }
     }
 ]

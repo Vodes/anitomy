@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <ranges>
+#include <regex>
 #include <span>
 #include <tuple>
 
@@ -33,13 +34,26 @@ inline std::optional<Element> parse_year(std::span<Token> tokens) noexcept {
   auto view = tokens | adjacent<3> | filter(is_isolated) | filter(is_free_number) |
               filter(is_year) | take(1);
 
-  if (view.empty()) return {};
+  if (!view.empty()) {
+    auto& token = std::get<1>(view.front());
+    token.element_kind = ElementKind::Year;
+    return element_from_token(ElementKind::Year, token);
+  }
 
-  auto& token = std::get<1>(view.front());
+  // An unenclosed year is unambiguous immediately before a season tag.
+  static const std::regex season_pattern{R"(S\d{1,2}(?:E\d{1,4})?)"};
+  auto numbers = tokens | filter(is_free_token) | filter(is_numeric_token);
+  for (auto it = numbers.begin(); it != numbers.end(); ++it) {
+    const int number = to_int(it->value);
+    if (number <= 1950 || number >= 2050) continue;
+    auto next_token = find_next_token(tokens, it.base().base(), is_not_delimiter_token);
+    if (next_token == tokens.end() ||
+        !std::regex_match(next_token->value, season_pattern)) continue;
+    it->element_kind = ElementKind::Year;
+    return element_from_token(ElementKind::Year, *it);
+  }
 
-  token.element_kind = ElementKind::Year;
-
-  return element_from_token(ElementKind::Year, token);
+  return {};
 }
 
 }  // namespace anitomy::detail
