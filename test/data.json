@@ -3771,5 +3771,73 @@
             "video_term": "H.265",
             "year": "2022"
         }
+    },
+    {
+        "input": "[Group] The Episode E1136.mkv",
+        "output": {
+            "title": "The Episode",
+            "episode": "1136",
+            "release_group": "Group",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "[Group] Anime Name Episode 1136.mkv",
+        "output": {
+            "title": "Anime Name",
+            "episode": "1136",
+            "release_group": "Group",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name - S00E04 - Title of the Episode",
+        "output": {
+            "title": "Anime Name",
+            "season": "00",
+            "episode": "04",
+            "episode_title": "Title of the Episode"
+        }
+    },
+    {
+        "input": "Anime Name - S00E01 - Title of the Episode (AMZN WEB-DL 1080p H.264 EAC3) [Dual Audio] [Group].mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": [
+                "AMZN",
+                "WEB-DL"
+            ],
+            "audio_term": [
+                "EAC3",
+                "Dual Audio"
+            ],
+            "video_term": "H.264",
+            "episode_title": "Title of the Episode",
+            "file_extension": "mkv"
+        }
+    },
+    {
+        "input": "Anime Name (2022) - S00E01 - Title of the Episode (BD Remux 1080p HEVC FLAC) [Dual Audio]-Group.mkv",
+        "output": {
+            "title": "Anime Name",
+            "release_group": "Group",
+            "season": "00",
+            "episode": "01",
+            "video_resolution": "1080p",
+            "source": "BD",
+            "audio_term": [
+                "FLAC",
+                "Dual Audio"
+            ],
+            "video_term": "HEVC",
+            "release_information": "Remux",
+            "year": "2022",
+            "episode_title": "Title of the Episode",
+            "file_extension": "mkv"
+        }
     }
 ]

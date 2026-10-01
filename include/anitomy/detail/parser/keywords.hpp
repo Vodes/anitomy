@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ranges>
+#include <regex>
 #include <span>
 #include <string>
 #include <vector>
@@ -71,7 +72,15 @@ inline std::vector<Element> parse_keywords(std::span<Token> tokens,
 
   std::vector<Element> elements;
 
-  for (auto& token : tokens | filter(is_keyword_token) | filter(is_allowed)) {
+  for (auto [index, token] : tokens | enumerate) {
+    if (!is_keyword_token(token) || !is_allowed(token)) continue;
+    // `Episode` can also be a word in a title, without a following number.
+    if (token.keyword->kind == Episode) {
+      auto next_token = find_next_token(tokens, tokens.begin() + index, is_not_delimiter_token);
+      static const std::regex episode_pattern{R"(\d{1,4}(?:[vV]\d)?)"};
+      if (next_token == tokens.end() ||
+          !std::regex_match(next_token->value, episode_pattern)) continue;
+    }
     const auto element_kind = to_element_kind(token.keyword->kind);
     if (!token.keyword->is_ambiguous() || token.is_enclosed) {
       token.element_kind = element_kind;
