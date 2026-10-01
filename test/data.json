@@ -3476,5 +3476,15 @@
             "video_resolution": "1080p",
             "audio_term": "FLAC"
         }
+    },
+    {
+        "input": "[Group] Anime Name P2 - 1136.mkv",
+        "output": {
+            "title": "Anime Name",
+            "part": "2",
+            "episode": "1136",
+            "release_group": "Group",
+            "file_extension": "mkv"
+        }
     }
 ]
