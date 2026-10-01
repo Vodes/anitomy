@@ -381,7 +381,7 @@ constexpr auto make_base_keywords() noexcept {
           {"8bits"},
           {"8 bit"},
           {"8 bits"},
-          {"10bit"},
+          {"10bit", PrefixForOther},
           {"10bits"},
           {"10 bit"},
           {"10 bits"},
