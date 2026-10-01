@@ -407,7 +407,7 @@ void test_util() {
   assert(to_lower('\0') == '\0');
 }
 
-void test_data() {
+bool test_data() {
   using namespace anitomy::detail;
 
   std::string file;
@@ -441,8 +441,10 @@ void test_data() {
     return output;
   };
 
-  const auto print_error = [](std::string_view input, std::string_view name,
-                              std::string_view expected_value, std::string_view parsed_value) {
+  bool success = true;
+  const auto print_error = [&success](std::string_view input, std::string_view name,
+                                    std::string_view expected_value, std::string_view parsed_value) {
+    success = false;
     std::println("Input:    `{}`", input);
     std::println("Element:  `{}`", name);
     std::println("Expected: `{}`", expected_value);
@@ -477,6 +479,7 @@ void test_data() {
       }
     }
   }
+  return success;
 }
 
 }  // namespace
@@ -485,7 +488,7 @@ int main(int argc, char* argv[]) {
   std::string_view arg{argc == 2 ? argv[1] : ""};
 
   if (arg == "--test-data") {
-    test_data();
+    return test_data() ? 0 : 1;
   } else {
     test_cli();
     test_json();
